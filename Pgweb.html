@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <meta charset="UTF-8">
+        <title>PruebaWebDSA</title>
+        <style>
+            table {
+                font-family: arial, ,sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+            *{
+                margin: 0px;
+                padding: 0px;
+
+            }
+            #container1{
+                background-color: lightgreen;
+                padding: 5px;
+                width: 100%;
+                height: 15%;
+                text-align: center;
+                font-family: quicksand,sans-serif;
+
+            }
+            #container2{
+                background-color: aquamarine;
+                padding: 5px;
+                width: 100%;
+                height: 30%;
+                text-align: center;
+                font-family: quicksand,sans-serif
+
+            }
+            #container3{
+                background-color: lightgray;
+                padding: 5px;
+                width: 100%;
+                height: 55%;
+                text-align: center;
+                line-height: 55%;
+                color: black;
+                font-family: quicksand,sans-serif
+            }
+        </style>
+        <script>
+            function GetUser(){
+                // Create an XMLHttpRequest object
+                const xhttp = new XMLHttpRequest();
+
+                // Define a callback function
+                xhttp.onload = function() {
+                    // Here you can use the Data
+                    console.log("Información recibida");
+                    var datos=  JSON.parse(this.responseText);
+                    console.log(datos);
+                    $('#repositorios').empty();
+                    for (var i=0;i<datos.length;++i)
+                    {
+                        $("#repositorios").append("<tr>"+
+                            "<td>"+datos[i].name+"</td>"+
+                            "<td>"+datos[i].description+"</td>"+
+                            "<td>"+datos[i].stargazers_count+"</td>"+
+                            "</tr>");
+                    }
+                }
+
+                // Send a request
+                console.log("Se envía la petición");
+                var url='https://api.github.com/users/'+document.getElementById("username").value+'/repos';
+                xhttp.open("GET",url, true);
+                xhttp.send();
+                }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $("#btn").click(GetUser)
+            });
+        </script>
+
+    </head>
+    <body>
+        <div id="container1">
+            <h1>Mi página de prueba </h1>
+        </div>
+        <div id="container2">
+            <p1>Introduce tu username de GitHub:</p1> <br>
+            <input type="text" id="username" value=""><br>
+            <input type="button" id="btn" value="Enviar"><br>
+        </div>
+        <div id="container3">
+            <table id="tabla">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Seguidores</th>
+                </tr>
+                </thead>
+                <tbody id="repositorios">
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+</html>
